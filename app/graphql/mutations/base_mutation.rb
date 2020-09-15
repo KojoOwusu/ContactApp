@@ -6,3 +6,5 @@ module Mutations
     object_class Types::BaseObject
   end
 end
+
+
