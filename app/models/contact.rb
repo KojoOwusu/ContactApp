@@ -5,10 +5,3 @@ class Contact < ApplicationRecord
     has_many :emails, dependent: :destroy
 end
 
-class Email < ApplicationRecord
-    belongs_to :contact
-end
-
-class Phonenumber < ApplicationRecord
-    belongs_to :contact
-end

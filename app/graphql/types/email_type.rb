@@ -1,6 +1,6 @@
 module Types
   class EmailType < Types::BaseObject
-    field :email, String
-    field :purpose, String
+    field :email, String, null: true
+    field :purpose, String, null: true
   end
 end
