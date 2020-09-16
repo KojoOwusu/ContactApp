@@ -6,7 +6,7 @@ module Types
     field :contacts, [Types::ContactType],'root query which displays all contacts', null: false
      
     def contacts
-      Contact.all
+      Contact.all.order(firstname: :asc)   #change sorting order by modifying order argument
     end
 
     #get single contact

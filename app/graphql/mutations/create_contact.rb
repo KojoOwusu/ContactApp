@@ -32,7 +32,7 @@ module Mutations
           errorMessage: 'failed to create contact'
         }
       end
-      # Suggestion: query database to get all data related to contact id
+      # fetch particular contact you just created and output that
       {contact:Contact.find(contact.id)}
     end
   end
