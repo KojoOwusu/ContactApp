@@ -14,8 +14,11 @@ module Types
       argument :id, ID, required: true
     end   
     def contact(id:)
-      Contact.find(id)
+      begin 
+        Contact.find(id)
+      rescue ActiveRecord::RecordNotFound => e
+        GraphQL::ExecutionError.new('Note does not exist.')  
+      end
     end
-    
   end
 end
