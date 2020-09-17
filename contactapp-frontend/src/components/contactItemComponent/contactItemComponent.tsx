@@ -13,7 +13,7 @@ const ContactItemComponent: React.FC = () => {
 	return (
 		<div className="ContactItem">
 			<img src={defaultUserLogo}></img>
-			<div>Kojo Owusuuu</div>
+			<div>Kojo</div>
 		</div>
 	);
 };

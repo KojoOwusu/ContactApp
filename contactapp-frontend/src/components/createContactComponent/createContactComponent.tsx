@@ -1,34 +1,13 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Image, Row } from "antd";
 import React, { useState } from "react";
-import defaultUserLogo from "../../assets/images/user.png";
+import UserSvg from "../../assets/svgs/user.svg";
 import ContactInput from "../../shared/components/contactInput/ContactInput";
 import "./styles.css";
 
-const EmptyUserAvatar = () => {
-	return (
-		<div className="image-wrapper">
-			<Image width={200} height={200} src={defaultUserLogo} />
-		</div>
-	);
-};
-
-const Names = () => {
-	return (
-		<Row gutter={[16, 16]}>
-			<Col span={12}>
-				<ContactInput type="text" placeholder="Firstname" />
-			</Col>
-			<Col span={12}>
-				<ContactInput type="text" placeholder="Lastname" />
-			</Col>
-		</Row>
-	);
-};
-
 let phoneNumberId = 1;
 const genPhoneId = () => {
-	return phoneNumberId++;
+	return ++phoneNumberId;
 };
 const Phone = () => {
 	const [phoneNumbers, setPhoneNumbers] = useState([
@@ -48,18 +27,28 @@ const Phone = () => {
 		]);
 	};
 
-	const removePhone = (id: number) => {
-		const index = phoneNumbers.findIndex((item) => item.id === id);
+	const editPhoneNumber = (id: number, phoneNumber: string) => {
 		let arr = [...phoneNumbers];
+		const index = arr.findIndex((item) => item.id === id);
+
+		arr[index] = { ...arr[index], phoneNumber };
+		setPhoneNumbers([...arr]);
+	};
+
+	const removePhone = (id: number) => {
+		let arr = phoneNumbers;
+		const index = arr.findIndex((item) => item.id === id);
+		console.log(arr);
 		arr.splice(index, 1);
 		setPhoneNumbers([...arr]);
 	};
 	return (
 		<div style={{ margin: " 0" }}>
-			{[...phoneNumbers].map((item, index) => {
+			{phoneNumbers.map((item, index) => {
 				return (
 					<ContactInput
 						remove={removePhone}
+						onChange={editPhoneNumber}
 						key={index}
 						value={item.phoneNumber}
 						id={item.id}
@@ -71,7 +60,9 @@ const Phone = () => {
 			})}
 
 			<Button
-				style={{ marginTop: "0.5rem" }}
+				style={{
+					marginTop: "0.5rem",
+				}}
 				icon={<PlusOutlined />}
 				type="primary"
 				onClick={addPhone}
@@ -84,7 +75,7 @@ const Phone = () => {
 
 let emailId = 1;
 const genEmailId = () => {
-	return emailId++;
+	return ++emailId;
 };
 const Email = () => {
 	const [emails, setEmails] = useState([
@@ -99,17 +90,29 @@ const Email = () => {
 	};
 
 	const removeEmail = (id: number) => {
-		const index = emails.findIndex((item) => item.id === id);
-		let arr = [...emails];
+		let arr = emails;
+		const index = arr.findIndex((item) => item.id === id);
+		console.log(arr);
 		arr.splice(index, 1);
 		setEmails([...arr]);
 	};
+
+	const editEmail = (id: number, email: string) => {
+		let arr = [...emails];
+		const index = arr.findIndex((item) => item.id === id);
+
+		arr[index] = { ...arr[index], email };
+		setEmails([...arr]);
+	};
+
+	console.log(emails);
 	return (
-		<div style={{ margin: " 0" }}>
-			{[...emails].map((item, index) => {
+		<div style={{ margin: "0" }}>
+			{emails.map((item, index) => {
 				return (
 					<ContactInput
 						remove={removeEmail}
+						onChange={editEmail}
 						value={item.email}
 						id={item.id}
 						key={index}
@@ -131,31 +134,50 @@ const Email = () => {
 		</div>
 	);
 };
+interface IContact {
+	Name: string;
+}
 
-const Twitter = () => {
-	return (
-		<div style={{ margin: "1rem 0" }}>
-			<ContactInput placeholder="Twitter" type="text" />
-		</div>
-	);
-};
-const CreateContactComponent: React.FC = () => {
+const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => {
 	return (
 		<div className="contact-details">
-			<div style={{ fontSize: "1.2rem" }}>Edit Contact</div>
-			<EmptyUserAvatar />
+			<div
+				style={{
+					fontSize: "1.2rem",
+					fontFamily: "Segoe UI",
+					fontWeight: "bold",
+					marginTop: "2rem",
+					color: " rgba(48, 54, 141, 0.8)",
+				}}
+			>
+				{Name}
+			</div>
+			<div className="image-wrapper">
+				<Image className="Image" src={UserSvg} />
+			</div>
 
-			<div style={{ overflowY: "auto", width: "100%" }}>
-				<Names />
+			<div className="input-wrapper">
+				<Row gutter={[16, 16]}>
+					<Col span={12}>
+						<ContactInput type="text" placeholder="Firstname" />
+					</Col>
+					<Col span={12}>
+						<ContactInput type="text" placeholder="Lastname" />
+					</Col>
+				</Row>
 
 				<Phone />
 
 				<Email />
 
-				<Twitter />
+				<div style={{ margin: "1rem 0" }}>
+					<ContactInput placeholder="Twitter" type="text" />
+				</div>
 			</div>
 
-			<Button type="primary">Save</Button>
+			<Button className="SaveButton" type="primary">
+				Save
+			</Button>
 		</div>
 	);
 };

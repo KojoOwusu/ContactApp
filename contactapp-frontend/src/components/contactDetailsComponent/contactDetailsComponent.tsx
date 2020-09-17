@@ -6,6 +6,7 @@ import { Button, Divider } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Twitter from "../../assets/svgs/twitter.svg";
 import "antd/dist/antd.css";
+import { Link } from "react-router-dom";
 import Email from "../../assets/svgs/email.svg";
 
 const NoContactSelectedComponent: React.FC = () => {
@@ -23,10 +24,12 @@ const ContactDetailsComponent: React.FC = () => {
 				<img src={UserSvg}></img>
 
 				<span className="ContactName">Kojo Owusuuu </span>
-				<Button type="link" size="large" className="editButton">
-					{" "}
-					Edit{" "}
-				</Button>
+				<Link to="/editContact">
+					<Button type="link" size="large" className="editButton">
+						{" "}
+						Edit{" "}
+					</Button>
+				</Link>
 			</div>
 
 			<div className="FieldContainer">

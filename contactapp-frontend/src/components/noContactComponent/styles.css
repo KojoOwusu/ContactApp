@@ -1,0 +1,10 @@
+.NoContact {
+	font-family: "Segoe UI";
+	position: relative;
+	font-size: 2rem;
+	text-align: center;
+	color: rgba(199, 202, 240, 1);
+	width: inherit;
+	top: 45%;
+	height: 5rem;
+}

@@ -1,7 +1,8 @@
 .MainContainer {
-	height: 100%;
+	height: inherit;
 	display: flex;
 	flex-direction: column;
+	width: inherit;
 }
 .MainContainer img {
 	margin-top: 0.5rem;
@@ -63,19 +64,11 @@
 }
 .FieldContainer {
 	box-sizing: border-box;
-	margin-left: 7rem;
-	margin-right: 7rem;
+	padding-left: 4rem;
+	padding-right: 2rem;
+	width: inherit;
 }
-.NoContact {
-	font-family: "Segoe UI";
-	position: relative;
-	font-size: 2rem;
-	text-align: center;
-	color: rgba(199, 202, 240, 1);
-	top: 45%;
-	right: 20%;
-	left: 5%;
-}
+
 .AddButton {
 	position: relative;
 	top: -2rem;

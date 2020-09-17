@@ -12,3 +12,18 @@
 .contact-details .image-wrapper {
 	justify-self: center;
 }
+
+.contact-details .image-wrapper .Image {
+	width: 8rem;
+	height: 8rem;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+}
+.contact-details .SaveButton {
+	width: 18rem;
+	height: 3rem;
+	margin-top: 3rem;
+	margin-bottom: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+}
