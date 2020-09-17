@@ -7,9 +7,9 @@
 	transition: 5ms;
 	font-weight: 500;
 	color: #e2e3f8;
-	border-bottom: 2px;
-	border-color: rgb(43, 43, 43);
 	justify-content: flex-start;
+	border-bottom: solid 1px;
+	border-color: #6a71d5;
 }
 .ContactItem img {
 	width: 4rem;

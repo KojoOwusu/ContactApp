@@ -15,7 +15,6 @@ const renderContact = () => {
 }; //render flatlist of contact items
 
 const AddButton: React.FC = () => {
-	const history = useHistory();
 	return (
 		<div>
 			<Link to="/addContact">
@@ -24,6 +23,7 @@ const AddButton: React.FC = () => {
 					type="primary"
 					shape="circle"
 					icon={<PlusOutlined />}
+					size="large"
 				/>
 			</Link>
 		</div>
@@ -44,9 +44,6 @@ const ContactListComponent: React.FC = () => {
 						<ContactItemComponent />
 					</li>
 				</Link>
-				<li>
-					<ContactItemComponent />
-				</li>
 				<li>
 					<ContactItemComponent />
 				</li>
