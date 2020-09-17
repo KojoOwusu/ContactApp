@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link, BrowserRouter } from "react-router-dom";
 import CreateContactComponent from "../src/components/createContactComponent/createContactComponent";
+import { client } from "./config/apolloClientsetup";
 
 import ContactListComponent from "./components/contactListComponent/contactListComponent";
 import ContactDetailsComponent from "./components/contactDetailsComponent/contactDetailsComponent";
