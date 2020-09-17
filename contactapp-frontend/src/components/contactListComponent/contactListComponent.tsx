@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import "./styles.css";
 import PlusSvg from "../../assets/svgs/plus.svg";
 import { Button, Divider } from "antd";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import ContactItemComponent from "../contactItemComponent/contactItemComponent";
 
@@ -24,52 +25,56 @@ const AddButton: React.FC = () => {
 const ContactListComponent: React.FC = () => {
 	return (
 		<Fragment>
-			<div className="AppHeader">
-				<div>Contacts</div>
-				<AddButton />
-			</div>
+			<Router>
+				<div className="AppHeader">
+					<div>Contacts</div>
+					<Link to="/AddContact">
+						<AddButton />
+					</Link>
+				</div>
 
-			<div className="ContactList">
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-			</div>
+				<div className="ContactList">
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+					<li>
+						<ContactItemComponent />
+					</li>
+				</div>
+			</Router>
 		</Fragment>
 	);
 };

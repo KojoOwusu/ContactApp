@@ -139,7 +139,7 @@ const Twitter = () => {
 		</div>
 	);
 };
-const ContactDetailsComponent: React.FC = () => {
+const CreateContactComponent: React.FC = () => {
 	return (
 		<div className="contact-details">
 			<div style={{ fontSize: "1.2rem" }}>Edit Contact</div>
@@ -159,4 +159,4 @@ const ContactDetailsComponent: React.FC = () => {
 		</div>
 	);
 };
-export default ContactDetailsComponent;
+export default CreateContactComponent;
