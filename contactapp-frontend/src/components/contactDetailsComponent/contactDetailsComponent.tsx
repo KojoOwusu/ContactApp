@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
 import UserSvg from "../../assets/svgs/user.svg";
 import Phone from "../../assets/svgs/phone.svg";
-import { Button } from "antd";
+import { Button, Divider } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import Twitter from "../../assets/svgs/twitter.svg";
+import "antd/dist/antd.css";
 import Email from "../../assets/svgs/email.svg";
 
+const NoContactSelectedComponent: React.FC = () => {
+	return <div className="NoContact">No Contact Selected</div>;
+};
+
 const ContactDetailsComponent: React.FC = () => {
+	const [ContactDetails, setContactDetails] = useState([]);
+
 	return (
+		/*<NoContactSelectedComponent />*/
+
 		<div className="MainContainer">
 			<div className="HeaderArea">
 				<img src={UserSvg}></img>
-				<span className="editButton">Edit Contact</span>
+
 				<span className="ContactName">Kojo Owusuuu </span>
+				<Button type="link" size="large" className="editButton">
+					{" "}
+					Edit{" "}
+				</Button>
 			</div>
 
 			<div className="FieldContainer">
@@ -46,7 +60,9 @@ const ContactDetailsComponent: React.FC = () => {
 				</div>
 				<div className="ContactInfoField">@Kojoowusu123</div>
 			</div>
-			<Button type="primary">Delete</Button>
+			<Button className="deleteButton" type="primary" danger>
+				DELETE
+			</Button>
 		</div>
 	);
 };

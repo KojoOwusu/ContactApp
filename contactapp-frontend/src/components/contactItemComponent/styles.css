@@ -2,21 +2,18 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	font-family: "Open Sans", "Segoe UI";
+	font-family: "Segoe UI";
 	font-size: 1.4rem;
 	transition: 5ms;
-	font-weight: bold;
-	color: #787cbd;
+	font-weight: 500;
+	color: #bec1f5;
 	border-bottom: 2px;
 	border-color: rgb(43, 43, 43);
-	padding-left: 1.4rem;
-}
-.ContactItem:hover {
-	background-color: rgba(68, 75, 175, 0.2);
+	justify-content: flex-start;
 }
 .ContactItem img {
-	width: 2.5rem;
-	height: 2.5rem;
-	padding: 1rem;
+	width: 4rem;
+	height: 4rem;
 	border-radius: 2rem;
+	padding-right: 1rem;
 }

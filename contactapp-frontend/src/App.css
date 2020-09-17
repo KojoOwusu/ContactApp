@@ -3,7 +3,7 @@ body {
 }
 .MainWrapper {
 	width: 100vw;
-	height: 99vh;
+	height: 100vh;
 	display: flex;
 	flex: 1;
 	justify-content: center;
@@ -12,27 +12,29 @@ body {
 	background: #eee;
 }
 .MainAppWindow {
-	width: 80%;
-	height: 80%;
+	width: 60vw;
+	height: 80vh;
 	border: none;
 	border-radius: 1rem;
 	display: grid;
 	min-width: 70%;
+	min-height: 70%;
 	grid-template-columns: auto auto auto auto auto;
-	-webkit-box-shadow: -6px 0px 17px 3px rgba(0, 0, 0, 0.18);
-	-moz-box-shadow: -6px 0px 17px 3px rgba(0, 0, 0, 0.18);
-	box-shadow: -6px 0px 17px 3px rgba(0, 0, 0, 0.18);
+	-webkit-box-shadow: -2px -5px 68px -9px rgba(0, 0, 0, 0.46);
+	-moz-box-shadow: -2px -5px 68px -9px rgba(0, 0, 0, 0.46);
+	box-shadow: -2px -5px 68px -9px rgba(0, 0, 0, 0.46);
 }
 .SidePane {
-	color: black;
 	background-color: white;
 	grid-column-start: 2;
 	border-radius: 0px 15px 15px 0px;
 	grid-column-end: 8;
+	height: inherit;
 }
 .ContactsPane {
-	background-color: #0a0e46;
+	background-color: #595cad;
 	grid-column-start: 1;
 	border-radius: 15px 0px 0px 15px;
 	grid-column-end: 2;
+	height: inherit;
 }
