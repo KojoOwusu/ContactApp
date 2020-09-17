@@ -1,0 +1,14 @@
+.contact-details {
+	padding: 1rem 1.5rem;
+	display: grid;
+	grid-template-rows: auto auto auto 1fr;
+	overflow: hidden;
+}
+
+.contact-details .image-wrapper img {
+	border-radius: 50%;
+}
+
+.contact-details .image-wrapper {
+	justify-self: center;
+}

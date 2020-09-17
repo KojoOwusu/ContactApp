@@ -1,0 +1,22 @@
+.ContactItem {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-family: "Open Sans", "Segoe UI";
+	font-size: 1.4rem;
+	transition: 5ms;
+	font-weight: bold;
+	color: #787cbd;
+	border-bottom: 2px;
+	border-color: rgb(43, 43, 43);
+	padding-left: 1.4rem;
+}
+.ContactItem:hover {
+	background-color: rgba(68, 75, 175, 0.2);
+}
+.ContactItem img {
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 1rem;
+	border-radius: 2rem;
+}
