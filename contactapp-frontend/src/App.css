@@ -1,0 +1,38 @@
+body {
+	margin: 0;
+}
+.MainWrapper {
+	width: 100vw;
+	height: 99vh;
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background: #eee;
+}
+.MainAppWindow {
+	width: 80%;
+	height: 80%;
+	border: none;
+	border-radius: 1rem;
+	display: grid;
+	min-width: 70%;
+	grid-template-columns: auto auto auto auto auto;
+	-webkit-box-shadow: -6px 0px 17px 3px rgba(0, 0, 0, 0.18);
+	-moz-box-shadow: -6px 0px 17px 3px rgba(0, 0, 0, 0.18);
+	box-shadow: -6px 0px 17px 3px rgba(0, 0, 0, 0.18);
+}
+.SidePane {
+	color: black;
+	background-color: white;
+	grid-column-start: 2;
+	border-radius: 0px 15px 15px 0px;
+	grid-column-end: 8;
+}
+.ContactsPane {
+	background-color: #0a0e46;
+	grid-column-start: 1;
+	border-radius: 15px 0px 0px 15px;
+	grid-column-end: 2;
+}
