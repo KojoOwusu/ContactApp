@@ -4,56 +4,47 @@ import React, { useState, useEffect } from "react";
 import UserSvg from "../../assets/svgs/user.svg";
 import ContactInput from "../../shared/components/contactInput/ContactInput";
 import "./styles.css";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useLazyQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
+import { getIdFromPath } from "../../helpers/helpers";
+import { useLocation } from "react-router-dom";
+import { valueFromAST, ValuesOfCorrectTypeRule } from "graphql";
 
-let phoneNumberId = 1;
-const genPhoneId = () => {
-	return ++phoneNumberId;
-};
 const Phone = (props: {
 	onChange: (phoneNumbers: Array<{ phonenumber: string; purpose: string }>) => void;
+	value: any[];
 }) => {
-	const { onChange } = props;
-	const [phonenumbers, setPhonenumbers] = useState([""]);
+	const { onChange, value } = props;
 
 	const addPhone = () => {
-		setPhonenumbers([...phonenumbers, ""]);
+		const nextValue = { phonenumber: "", purpose: "work" };
+		onChange([...value, nextValue]);
 	};
 
 	const editPhoneNumber = (id: number, newPhoneNumberText: string) => {
-		setPhonenumbers(
-			phonenumbers.map((phone, i) => {
-				if (i === id) return newPhoneNumberText;
-				return phone;
+		onChange(
+			value.map((val, i) => {
+				if (i === id) return { phonenumber: newPhoneNumberText, purpose: val.purpose };
+				return val;
 			})
 		);
 	};
 
 	const removePhone = (id: number) => {
-		setPhonenumbers(phonenumbers.filter((item, i) => i !== id));
+		onChange(value.filter((item, i) => i !== id));
 	};
-
-	useEffect(() => {
-		const numbers = phonenumbers.map((item) => {
-			return { phonenumber: item, purpose: "Work" };
-		});
-		onChange(numbers);
-	}, [phonenumbers]);
 
 	return (
 		<div style={{ margin: 0 }}>
-			{phonenumbers.map((item, index) => {
-				console.log(item);
+			{value.map((item, index) => {
 				return (
 					<ContactInput
-						remove={removePhone}
+						remove={() => removePhone(index)}
 						onChange={(e) => {
-							console.log(e);
 							editPhoneNumber(index, e);
 						}}
 						key={index}
-						value={item}
+						value={item.phonenumber}
 						id={index}
 						icon
 						placeholder="Phone"
@@ -76,53 +67,39 @@ const Phone = (props: {
 	);
 };
 
-let emailId = 1;
-const genEmailId = () => {
-	return ++emailId;
-};
 const Email = (props: {
 	onChange: (emails: Array<{ email: string; purpose: string }>) => void;
+	value: any[];
 }) => {
-	const { onChange } = props;
-	const [emails, setEmails] = useState([""]);
+	const { onChange, value } = props;
 
 	const addEmail = () => {
-		setEmails([...emails, ""]);
+		onChange([...value, { email: "", purpose: "" }]);
 	};
 
 	const removeEmail = (id: number) => {
-		setEmails(emails.filter((item, i) => i !== id));
+		onChange(value.filter((item, i) => i !== id));
 	};
 
 	const editEmail = (id: number, email: string) => {
-		setEmails(
-			emails.map((phone, i) => {
-				if (i === id) return email;
-				return phone;
+		onChange(
+			value.map((val, i) => {
+				if (i === id) return { email, purpose: val.purpose };
+				return val;
 			})
 		);
 	};
 
-	useEffect(() => {
-		const emailsItems = emails.map((item) => {
-			return {
-				email: item,
-				purpose: "Work",
-			};
-		});
-		onChange(emailsItems);
-	}, [emails]);
-
 	return (
 		<div style={{ margin: "0" }}>
-			{emails.map((item, index) => {
+			{value.map((item, index) => {
 				return (
 					<ContactInput
-						remove={removeEmail}
+						remove={() => removeEmail(index)}
 						onChange={(value) => {
 							editEmail(index, value);
 						}}
-						value={item}
+						value={item.email}
 						id={index}
 						key={index}
 						icon
@@ -171,45 +148,91 @@ const ADD_CONTACT = gql`
 `;
 
 const EDIT_CONTACT = gql`
-mutation(
-	$id:ID!
-	$firstname: String!
-	$lastname: String!
-	$phonenumbers: [PhoneNumberInput!]!
-	$emails: [EmailInput!]!
-	$twitterusername: String)
-	{
-	editContact(
-	input:{
-		id:$firstname: $firstname
-		lastname: $lastname
-		phonenumbers: $phonenumbers
-		emails: $emails
-		twitterusername: $twitterusername
-	}){
-	  contact{
-			id
-	  }
-	} 
-  }
+	mutation(
+		$id: ID!
+		$firstname: String!
+		$lastname: String!
+		$phonenumbers: [PhoneNumberInput!]!
+		$emails: [EmailInput!]!
+		$twitterusername: String
+	) {
+		editContact(
+			input: {
+				id: $id
+				firstname: $firstname
+				lastname: $lastname
+				phonenumbers: $phonenumbers
+				emails: $emails
+				twitterusername: $twitterusername
+			}
+		) {
+			contact {
+				id
+			}
+		}
+	}
 `;
 
 const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => {
 	const history = useHistory();
+	const { pathname } = useLocation();
+
+	const Query = gql`
+		query($id: ID!) {
+			contact(id: $id) {
+				firstname
+				lastname
+				phonenumbers {
+					phonenumber
+					purpose
+				}
+				emails {
+					email
+					purpose
+				}
+				twitterusername
+			}
+		}
+	`;
 
 	const [firstname, setFirstname] = useState("");
 	const [lastname, setLastname] = useState("");
 	const [twitterusername, setTwitterusername] = useState("");
-	const [emails, setEmails] = useState([] as any[]);
-	const [phonenumbers, setPhonenumbers] = useState([] as any[]);
+	const [emails, setEmails] = useState<any[]>([{ email: "", purpose: "" }]);
+	const [phonenumbers, setPhonenumbers] = useState<any[]>([{ phonenumber: "", purpose: "work" }]);
 
-	const [createContact, { loading }] = useMutation(ADD_CONTACT, {
+	const [createContact, AddContactState] = useMutation(ADD_CONTACT, {
 		onCompleted: (data: any) => {
 			history.push(`/contactDetails:${data.createContact.contact.id}`);
 		},
 		onError: (error: any) => {},
 		refetchQueries: ["Contacts"],
 	});
+
+	const [editContact, editContactState] = useMutation(EDIT_CONTACT, {
+		onCompleted: (data: any) => {
+			history.push(`/contactDetails:${data.editContact.contact.id}`);
+		},
+		onError: (error: any) => {},
+		refetchQueries: ["Contacts"],
+	});
+	const [getContact, getConstantState] = useLazyQuery(Query, {
+		onCompleted: (data: any) => {
+			setFirstname(data.contact.firstname);
+			setLastname(data.contact.lastname);
+			setPhonenumbers(data.contact.phonenumbers);
+			setEmails(data.contact.emails);
+			setTwitterusername(data.contact.twitterusername);
+		},
+		onError: (error: any) => {},
+	});
+
+	useEffect(() => {
+		if (getIdFromPath(pathname)) {
+			getContact({ variables: { id: getIdFromPath(pathname) } });
+		}
+		return () => {};
+	}, []);
 
 	return (
 		<form className="contact-details">
@@ -248,9 +271,9 @@ const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => 
 					</Col>
 				</Row>
 
-				<Phone onChange={setPhonenumbers} />
+				<Phone onChange={setPhonenumbers} value={phonenumbers} />
 
-				<Email onChange={setEmails} />
+				<Email onChange={setEmails} value={emails} />
 
 				<div style={{ margin: "1rem 0" }}>
 					<ContactInput
@@ -265,16 +288,30 @@ const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => 
 			<Button
 				className="SaveButton"
 				type="primary"
+				disabled={!(firstname && lastname && phonenumbers)}
 				onClick={() => {
-					createContact({
-						variables: {
-							firstname,
-							lastname,
-							phonenumbers,
-							emails,
-							twitterusername,
-						},
-					});
+					if (getIdFromPath(pathname)) {
+						editContact({
+							variables: {
+								id: getIdFromPath(pathname),
+								firstname,
+								lastname,
+								phonenumbers,
+								emails,
+								twitterusername,
+							},
+						});
+					} else {
+						createContact({
+							variables: {
+								firstname,
+								lastname,
+								phonenumbers,
+								emails,
+								twitterusername,
+							},
+						});
+					}
 				}}
 			>
 				Save
