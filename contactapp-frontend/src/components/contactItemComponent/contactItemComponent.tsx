@@ -2,18 +2,16 @@ import React from "react";
 import "./styles.css";
 import defaultUserLogo from "../../assets/svgs/user.svg";
 
-interface IContactItemProps {
-	contact: {
-		firstname: string;
-		lastname: string;
-	};
+export interface IContactItemProps {
+	contact_id: number;
+	firstname: string;
 }
 
-const ContactItemComponent: React.FC = () => {
+const ContactItemComponent: React.FC<IContactItemProps> = ({ contact_id, firstname }) => {
 	return (
 		<div className="ContactItem">
 			<img src={defaultUserLogo}></img>
-			<div>Kojo</div>
+			<div>{firstname}</div>
 		</div>
 	);
 };

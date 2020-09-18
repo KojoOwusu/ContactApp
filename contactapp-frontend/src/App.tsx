@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link, BrowserRouter } from "react-router-dom";
 import CreateContactComponent from "../src/components/createContactComponent/createContactComponent";
-import { client } from "./config/apolloClientsetup";
-
+import { FETCH_CONTACTS } from "./api/query";
+import { useQuery } from "@apollo/client";
 import ContactListComponent from "./components/contactListComponent/contactListComponent";
 import ContactDetailsComponent from "./components/contactDetailsComponent/contactDetailsComponent";
 import NoContactComponent from "./components/noContactComponent/noContactComponent";
 
 const App = () => {
-	let addContact = "Add Contact";
+	//const [serverData, setData] = useState({});
+
 	return (
 		<div className="MainWrapper">
 			<div className="MainAppWindow">
@@ -19,7 +20,10 @@ const App = () => {
 				<div className="SidePane">
 					<Switch>
 						<Route path="/" exact component={NoContactComponent} />
-						<Route path="/contactDetails" exact component={ContactDetailsComponent} />
+						<Route
+							path="/contactDetails:contact_id"
+							component={ContactDetailsComponent}
+						/>
 
 						<Route exact path="/addContact">
 							<CreateContactComponent Name="Add Contact" />

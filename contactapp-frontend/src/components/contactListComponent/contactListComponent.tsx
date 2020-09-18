@@ -5,12 +5,16 @@ import { Button, Divider } from "antd";
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import ContactItemComponent from "../contactItemComponent/contactItemComponent";
+import { useQuery } from "@apollo/client";
+import { FETCH_CONTACTS } from "../../api/query";
 
-const renderContact = () => {
+const renderContact = (serverData: { id: number; firstname: string }) => {
 	return (
-		<li>
-			<ContactItemComponent />
-		</li>
+		<Link to={`/contactDetails:${serverData.id}`}>
+			<li>
+				<ContactItemComponent contact_id={serverData.id} firstname={serverData.firstname} />
+			</li>
+		</Link>
 	);
 }; //render flatlist of contact items
 
@@ -31,6 +35,11 @@ const AddButton: React.FC = () => {
 };
 
 const ContactListComponent: React.FC = () => {
+	const { loading, error, data } = useQuery(FETCH_CONTACTS);
+
+	if (loading) return <p>loading</p>;
+	if (error) console.log(`Error: ${error.message}`);
+
 	return (
 		<Fragment>
 			<div className="AppHeader">
@@ -39,44 +48,10 @@ const ContactListComponent: React.FC = () => {
 			</div>
 
 			<div className="ContactList">
-				<Link to="/contactDetails">
-					<li>
-						<ContactItemComponent />
-					</li>
-				</Link>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
-				<li>
-					<ContactItemComponent />
-				</li>
+				{data.contacts.map((item: { id: number; firstname: string }) => {
+					console.log(item);
+					return renderContact(item);
+				})}
 			</div>
 		</Fragment>
 	);

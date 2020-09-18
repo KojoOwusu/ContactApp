@@ -6,15 +6,55 @@ import { Button, Divider } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Twitter from "../../assets/svgs/twitter.svg";
 import "antd/dist/antd.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Email from "../../assets/svgs/email.svg";
+import { GET_CONTACT_DETAILS } from "../../api/query";
+import { useQuery, gql, useMutation } from "@apollo/client";
+import { getIdFromPath } from "../../helpers/helpers";
 
-const NoContactSelectedComponent: React.FC = () => {
-	return <div className="NoContact">No Contact Selected</div>;
+const renderPhonenumbers = (DataObj: { phonenumber: string; purpose: string }) => {
+	return (
+		<div className="ContactInfoField">
+			<div>{DataObj.phonenumber}</div>
+			<div>{DataObj.purpose}</div>
+		</div>
+	);
 };
+const renderEmails = (DataObj: { email: string; purpose: string }) => {
+	return (
+		<div className="ContactInfoField">
+			<div>{DataObj.email}</div>
+			<div>{DataObj.purpose}</div>
+		</div>
+	);
+};
+const deleteHandler = () => {};
 
-const ContactDetailsComponent: React.FC = () => {
-	const [ContactDetails, setContactDetails] = useState([]);
+const ContactDetailsComponent: React.FC = (props) => {
+	const { pathname } = useLocation();
+
+	//parseInt(id,10)
+	//const id = parseInt(subStr, 10);
+	const Query = gql`
+	query{
+		contact(id:${getIdFromPath(pathname)}){
+		  firstname
+		  lastname
+		  phonenumbers{
+			phonenumber
+			purpose
+		  }
+		  emails{
+			email
+			purpose
+		  }
+		  twitterusername
+		}
+	  }
+	`;
+	const { loading, error, data } = useQuery(Query);
+	if (loading) return <p></p>;
+	if (error) console.log(`Error: ${error.message}`);
 
 	return (
 		/*<NoContactSelectedComponent />*/
@@ -23,7 +63,7 @@ const ContactDetailsComponent: React.FC = () => {
 			<div className="HeaderArea">
 				<img src={UserSvg}></img>
 
-				<span className="ContactName">Kojo Owusuuu </span>
+				<span className="ContactName">{`${data.contact.firstname} ${data.contact.lastname}`}</span>
 				<Link to="/editContact">
 					<Button type="link" size="large" className="editButton">
 						{" "}
@@ -35,35 +75,30 @@ const ContactDetailsComponent: React.FC = () => {
 			<div className="FieldContainer">
 				<div className="iconTextHeader">
 					<img src={Phone}></img>
-					Phonenumber
+					phonenumber
 				</div>
-				<div className="ContactInfoField">
-					<div>+233 55 151 5302</div>
-					<div>Work</div>
-				</div>
-				<div className="ContactInfoField">
-					<div>+233 55 151 5302</div>
-					<div>Work</div>
-				</div>
+
+				{data.contact.phonenumbers.map((item: { phonenumber: string; purpose: string }) => {
+					return renderPhonenumbers(item);
+				})}
 			</div>
 			<div className="FieldContainer">
 				<div className="iconTextHeader">
 					<img src={Email}></img>
 					email
 				</div>
-				<div className="ContactInfoField">
-					<div>owusukojo97@gmail.com</div>
-					<div>home</div>
-				</div>
+				{data.contact.emails.map((item: { email: string; purpose: string }) => {
+					return renderEmails(item);
+				})}
 			</div>
 			<div className="FieldContainer">
 				<div className="iconTextHeader">
 					<img src={Twitter}></img>
 					twitter
 				</div>
-				<div className="ContactInfoField">@Kojoowusu123</div>
+				<div className="ContactInfoField">{data.contact.twitterusername}</div>
 			</div>
-			<Button className="deleteButton" type="primary" danger>
+			<Button className="deleteButton" type="primary" danger onClick={deleteHandler}>
 				DELETE
 			</Button>
 		</div>
