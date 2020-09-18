@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import UserSvg from "../../assets/svgs/user.svg";
 import ContactInput from "../../shared/components/contactInput/ContactInput";
 import "./styles.css";
+import { gql, useMutation } from "@apollo/client";
 
 let phoneNumberId = 1;
 const genPhoneId = () => {
@@ -137,10 +138,45 @@ const Email = () => {
 interface IContact {
 	Name: string;
 }
-
+const ADD_CONTACT = gql`
+	mutation {
+		createContact(
+			input: {
+				firstname: " "
+				lastname: " "
+				phonenumbers: [{ phonenumber: " ", purpose: " " }]
+				emails: [{ email: "", purpose: "" }]
+				twitterusername: " "
+			}
+		) {
+			contact {
+				firstname
+			}
+		}
+	}
+`;
+const firstnameChangeHandler = () => {};
 const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => {
+	var data = {
+		firstname: "",
+		lastname: "",
+		phonenumbers: [
+			{
+				phonenumber: "",
+				purpose: "",
+			},
+		],
+		emails: [
+			{
+				phonenumber: "",
+				purpose: "",
+			},
+		],
+		twitterusername: "",
+	};
+
 	return (
-		<div className="contact-details">
+		<form className="contact-details">
 			<div
 				style={{
 					fontSize: "1.2rem",
@@ -159,10 +195,18 @@ const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => 
 			<div className="input-wrapper">
 				<Row gutter={[16, 16]}>
 					<Col span={12}>
-						<ContactInput type="text" placeholder="Firstname" />
+						<ContactInput
+							type="text"
+							placeholder="Firstname"
+							onChange={firstnameChangeHandler}
+						/>
 					</Col>
 					<Col span={12}>
-						<ContactInput type="text" placeholder="Lastname" />
+						<ContactInput
+							type="text"
+							placeholder="Lastname"
+							onChange={firstnameChangeHandler}
+						/>
 					</Col>
 				</Row>
 
@@ -171,14 +215,18 @@ const CreateContactComponent: React.FunctionComponent<IContact> = ({ Name }) => 
 				<Email />
 
 				<div style={{ margin: "1rem 0" }}>
-					<ContactInput placeholder="Twitter" type="text" />
+					<ContactInput
+						placeholder="Twitter"
+						type="text"
+						onChange={firstnameChangeHandler}
+					/>
 				</div>
 			</div>
 
 			<Button className="SaveButton" type="primary">
 				Save
 			</Button>
-		</div>
+		</form>
 	);
 };
 export default CreateContactComponent;

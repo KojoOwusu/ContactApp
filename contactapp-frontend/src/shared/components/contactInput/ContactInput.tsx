@@ -10,7 +10,7 @@ interface IContactInput {
 	value?: string;
 	id?: number;
 	remove?: (arg0: number) => any;
-	onChange?: (arg0: number, arg1: string) => any;
+	onChange: (arg0: number, arg1: string) => any;
 }
 
 const ContactInput: React.FC<IContactInput> = ({
@@ -20,6 +20,7 @@ const ContactInput: React.FC<IContactInput> = ({
 	value,
 	remove = () => {},
 	id = 0,
+	onChange,
 }) => {
 	return (
 		<div className="contact-input">
