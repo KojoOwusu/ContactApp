@@ -21,4 +21,5 @@ Run rake db:seed to test by seeding database
 
 -   Deployment instructions
     deployed to heroku 
--   ...
+-   app url: https://safe-earth-99320.herokuapp.com
+
