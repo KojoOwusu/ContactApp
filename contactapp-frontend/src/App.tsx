@@ -29,7 +29,7 @@ const App = () => {
 							<CreateContactComponent Name="Add Contact" />
 						</Route>
 
-						<Route exact path="/editContact">
+						<Route exact path="/editContact:id">
 							<CreateContactComponent Name="Edit Contact" />
 						</Route>
 					</Switch>

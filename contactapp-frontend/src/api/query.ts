@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 
 //query for getting all contacts
 export const FETCH_CONTACTS = gql`
-	query {
+	query Contacts {
 		contacts {
 			id
 			firstname

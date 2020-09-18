@@ -11,6 +11,8 @@ import Email from "../../assets/svgs/email.svg";
 import { GET_CONTACT_DETAILS } from "../../api/query";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { getIdFromPath } from "../../helpers/helpers";
+import { useHistory } from "react-router-dom";
+import { FETCH_CONTACTS } from "../../api/query";
 
 const renderPhonenumbers = (DataObj: { phonenumber: string; purpose: string }) => {
 	return (
@@ -32,7 +34,7 @@ const deleteHandler = () => {};
 
 const ContactDetailsComponent: React.FC = (props) => {
 	const { pathname } = useLocation();
-
+	const history = useHistory();
 	//parseInt(id,10)
 	//const id = parseInt(subStr, 10);
 	const Query = gql`
@@ -52,9 +54,28 @@ const ContactDetailsComponent: React.FC = (props) => {
 		}
 	  }
 	`;
-	const { loading, error, data } = useQuery(Query);
-	if (loading) return <p></p>;
-	if (error) console.log(`Error: ${error.message}`);
+
+	const DELETE_STRING = gql`
+		mutation($userid: ID!) {
+			deleteContact(input: { id: $userid }) {
+				contacts {
+					firstname
+				}
+			}
+		}
+	`;
+
+	const queryState = useQuery(Query);
+	const [deleteContact, deleteContactState] = useMutation(DELETE_STRING, {
+		onCompleted: (data: any) => {
+			history.push("/");
+		},
+		onError: (error: any) => {},
+		refetchQueries: ["Contacts"],
+	});
+
+	if (deleteContactState.loading || queryState.loading) return <p></p>;
+	if (queryState.error) console.log(`Error: ${queryState.error.message}`);
 
 	return (
 		/*<NoContactSelectedComponent />*/
@@ -63,8 +84,8 @@ const ContactDetailsComponent: React.FC = (props) => {
 			<div className="HeaderArea">
 				<img src={UserSvg}></img>
 
-				<span className="ContactName">{`${data.contact.firstname} ${data.contact.lastname}`}</span>
-				<Link to="/editContact">
+				<span className="ContactName">{`${queryState.data.contact.firstname} ${queryState.data.contact.lastname}`}</span>
+				<Link to={`/editContact:${getIdFromPath(pathname)}`}>
 					<Button type="link" size="large" className="editButton">
 						{" "}
 						Edit{" "}
@@ -78,16 +99,18 @@ const ContactDetailsComponent: React.FC = (props) => {
 					phonenumber
 				</div>
 
-				{data.contact.phonenumbers.map((item: { phonenumber: string; purpose: string }) => {
-					return renderPhonenumbers(item);
-				})}
+				{queryState.data.contact.phonenumbers.map(
+					(item: { phonenumber: string; purpose: string }) => {
+						return renderPhonenumbers(item);
+					}
+				)}
 			</div>
 			<div className="FieldContainer">
 				<div className="iconTextHeader">
 					<img src={Email}></img>
 					email
 				</div>
-				{data.contact.emails.map((item: { email: string; purpose: string }) => {
+				{queryState.data.contact.emails.map((item: { email: string; purpose: string }) => {
 					return renderEmails(item);
 				})}
 			</div>
@@ -96,9 +119,20 @@ const ContactDetailsComponent: React.FC = (props) => {
 					<img src={Twitter}></img>
 					twitter
 				</div>
-				<div className="ContactInfoField">{data.contact.twitterusername}</div>
+				<div className="ContactInfoField">{queryState.data.contact.twitterusername}</div>
 			</div>
-			<Button className="deleteButton" type="primary" danger onClick={deleteHandler}>
+			<Button
+				className="deleteButton"
+				type="primary"
+				danger
+				onClick={() => {
+					deleteContact({
+						variables: {
+							userid: getIdFromPath(pathname),
+						},
+					});
+				}}
+			>
 				DELETE
 			</Button>
 		</div>

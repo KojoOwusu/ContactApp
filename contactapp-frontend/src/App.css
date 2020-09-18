@@ -30,6 +30,8 @@ body {
 	border-radius: 0px 15px 15px 0px;
 	grid-column-end: 8;
 	height: inherit;
+	overflow: hidden;
+	overflow-y: scroll;
 }
 .ContactsPane {
 	background-color: #595cad;

@@ -48,10 +48,11 @@ const ContactListComponent: React.FC = () => {
 			</div>
 
 			<div className="ContactList">
-				{data.contacts.map((item: { id: number; firstname: string }) => {
-					console.log(item);
-					return renderContact(item);
-				})}
+				{data &&
+					data.contacts.map((item: { id: number; firstname: string }) => {
+						console.log(item);
+						return renderContact(item);
+					})}
 			</div>
 		</Fragment>
 	);
