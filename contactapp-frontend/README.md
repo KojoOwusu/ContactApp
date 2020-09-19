@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 Run 'Yarn install' to install all dependencies specified in package.json
+
+Replace src/apolloClientsetup.ts URI with 'https://safe-earth-99320.herokuapp.com' to run on hosted backend 
+and 'localhost:[PORT]' to run locally
+
 ## Available Scripts
 
 In the project directory, you can run:
