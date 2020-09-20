@@ -4,6 +4,7 @@ This README would normally document whatever steps are necessary to get the
 application up and running.
 
 Things you may want to cover:
+# NB was working in ContactAppReact branch mostly so that branch has most recent changes. Yet to merge with master 
 
 -   Ruby version
     2.7.0
