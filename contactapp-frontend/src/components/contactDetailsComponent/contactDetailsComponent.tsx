@@ -119,7 +119,9 @@ const ContactDetailsComponent: React.FC = (props) => {
 					<img src={Twitter}></img>
 					twitter
 				</div>
-				<div className="ContactInfoField">{queryState.data.contact.twitterusername}</div>
+				<div className="ContactInfoFieldTwitter">
+					{queryState.data.contact.twitterusername}
+				</div>
 			</div>
 			<Button
 				className="deleteButton"
