@@ -1,15 +1,20 @@
 .AppHeader {
+	position: relative;
 	font-family: "Segoe UI";
 	font-size: 2.5rem;
 	display: flex;
 	font-weight: 800;
 	color: #e2e3f8;
-	margin-top: 2.3rem;
-	margin-left: 1rem;
+	padding-top: 2.3rem;
 	margin-bottom: 1rem;
-	padding-left: 1rem;
-	width: 90%;
-	padding-right: 1rem;
+	padding-left: 2rem;
+	width: inherit;
+	z-index: 1;
+}
+.AppHeader:hover {
+	-webkit-box-shadow: 1px 9px 7px 1px rgba(0, 0, 0, 0.08);
+	-moz-box-shadow: 1px 9px 7px 1px rgba(0, 0, 0, 0.08);
+	box-shadow: 1px 9px 7px 1px rgba(0, 0, 0, 0.08);
 }
 
 .ContactList {
@@ -27,4 +32,9 @@
 
 .ContactList li:hover {
 	background-color: rgba(68, 75, 175, 0.6);
+}
+.AddButton {
+	position: absolute;
+	left: 80%;
+	top: 2%;
 }

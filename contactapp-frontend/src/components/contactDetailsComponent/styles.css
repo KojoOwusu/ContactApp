@@ -69,11 +69,6 @@
 	width: inherit;
 }
 
-.AddButton {
-	position: relative;
-	top: -2rem;
-	right: -5rem;
-}
 .deleteButton {
 	width: 20rem;
 	height: 10rem;
