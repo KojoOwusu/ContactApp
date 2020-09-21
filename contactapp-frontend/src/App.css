@@ -5,7 +5,6 @@ body {
 	width: 100vw;
 	height: 100vh;
 	display: flex;
-	flex: 1;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
@@ -17,27 +16,27 @@ body {
 	border: none;
 	border-radius: 1rem;
 	display: grid;
-	min-width: 70%;
 	min-height: 70%;
-	grid-template-columns: auto auto auto auto auto;
+	grid-template-columns: repeat(6, 1fr);
 	-webkit-box-shadow: -2px -5px 68px -9px rgba(0, 0, 0, 0.46);
 	-moz-box-shadow: -2px -5px 68px -9px rgba(0, 0, 0, 0.46);
 	box-shadow: -2px -5px 68px -9px rgba(0, 0, 0, 0.46);
 }
 .SidePane {
 	background-color: white;
-	grid-column-start: 2;
+	grid-column-start: 3;
 	border-radius: 0px 15px 15px 0px;
-	grid-column-end: 8;
+	grid-column-end: 7;
 	height: inherit;
 	overflow: hidden;
 	overflow-y: scroll;
+	width: 100%;
 }
 .ContactsPane {
 	background-color: #595cad;
 	grid-column-start: 1;
 	border-radius: 15px 0px 0px 15px;
-	grid-column-end: 2;
+	grid-column-end: 3;
 	height: inherit;
 	-webkit-box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.49);
 	-moz-box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.49);
